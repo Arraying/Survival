@@ -1,0 +1,5 @@
+name: Survival
+version: Spigot
+main: net.thenova.survival.server.ServerCore
+author: Arraying
+depend: [Droplets]

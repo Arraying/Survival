@@ -1,0 +1,5 @@
+name: Survival
+version: Bungee
+main: net.thenova.survival.proxy.ProxyCore
+author: Arraying
+depend: [Droplets]
