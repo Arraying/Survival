@@ -1,6 +1,7 @@
-package net.thenova.survival.common;
+package net.thenova.survival.proxy.command;
 
-import net.md_5.bungee.api.ChatColor;
+import net.thenova.droplets.proxy.command.internal.Response;
+import net.thenova.survival.common.SurvivalConstants;
 
 /**
  * Copyright 2018 Arraying
@@ -17,16 +18,21 @@ import net.md_5.bungee.api.ChatColor;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class SurvivalConstants {
+public final class SurvivalResponse implements Response {
+
+    private final String message;
 
     /**
-     * The key for the UUID.
+     * Creates a new survival response.
+     * @param message The message.
      */
-    public static final String UUID = "data";
+    public SurvivalResponse(String message) {
+        this.message = message;
+    }
 
-    /**
-     * The prefix.
-     */
-    public static final String PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.WHITE + "Survival" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
+    @Override
+    public String getValue() {
+        return SurvivalConstants.PREFIX + message;
+    }
 
 }

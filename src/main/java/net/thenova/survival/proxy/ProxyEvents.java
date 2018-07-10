@@ -63,17 +63,6 @@ public final class ProxyEvents implements Listener {
     @SuppressWarnings("unused")
     @EventHandler
     public void onSwitch(ServerSwitchEvent event) {
-        List<SurvivalServer> purging = new ArrayList<>();
-        for(SurvivalServer server : SurvivalHandler.INSTANCE.all()) {
-            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getIdentifier());
-            if(serverInfo == null
-                    || serverInfo.getPlayers().size() == 0) {
-                purging.add(server);
-            }
-        }
-        for(SurvivalServer purge : purging) {
-            SurvivalHandler.INSTANCE.delete(purge, true);
-        }
         Droplet droplet = DropletHandler.INSTANCE.getDroplet(event.getPlayer().getServer().getInfo().getName());
         if(droplet == null) {
             return;
@@ -89,12 +78,24 @@ public final class ProxyEvents implements Listener {
 
     /**
      * When a player leaves the network.
+     * Survival deletion is not optimal.
      * @param event The event.
      */
     @SuppressWarnings("unused")
     @EventHandler
     public void onLeave(PlayerDisconnectEvent event) {
         SurvivalHandler.INSTANCE.disconnect(event.getPlayer());
+        List<SurvivalServer> purging = new ArrayList<>();
+        for(SurvivalServer server : SurvivalHandler.INSTANCE.all()) {
+            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getIdentifier());
+            if(serverInfo == null
+                    || serverInfo.getPlayers().isEmpty()) {
+                purging.add(server);
+            }
+        }
+        for(SurvivalServer purge : purging) {
+            SurvivalHandler.INSTANCE.delete(purge, true);
+        }
     }
 
     /**

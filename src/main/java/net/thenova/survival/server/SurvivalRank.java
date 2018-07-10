@@ -1,6 +1,5 @@
 package net.thenova.survival.server;
 
-import de.arraying.nexus.NexusInstance;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -58,7 +57,7 @@ public enum SurvivalRank {
      * @return The rank.
      */
     public static SurvivalRank forPlayer(Player player) {
-        ServerCore core = (ServerCore) NexusInstance.get();
+        ServerCore core = ServerCore.getInstance();
         SurvivalRank rank;
         if(player.isOp()) {
             if(core.getOwner() != null

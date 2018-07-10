@@ -1,6 +1,5 @@
 package net.thenova.survival.server;
 
-import de.arraying.nexus.NexusInstance;
 import net.thenova.survival.server.command.BlockedCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.BlockCommandSender;
@@ -37,7 +36,7 @@ public final class ServerEvents implements Listener {
      * Sets the core.
      */
     ServerEvents() {
-        core = (ServerCore) NexusInstance.get();
+        this.core = ServerCore.getInstance();
     }
 
     /**

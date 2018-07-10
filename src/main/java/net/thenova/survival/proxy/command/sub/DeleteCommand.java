@@ -4,6 +4,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
 import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
+import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 import net.thenova.survival.proxy.survival.SurvivalServer;
 
@@ -38,15 +39,15 @@ public final class DeleteCommand extends AbstractSubCommand {
     @Override
     public void onCommand(Context context) {
         if(!(context.getSender() instanceof ProxiedPlayer)) {
-            context.reply(new MessageResponse("Only players in-game can delete survival servers."));
+            context.reply(new SurvivalResponse("Only players in-game can delete survival servers."));
             return;
         }
         SurvivalServer server = SurvivalHandler.INSTANCE.getServer((ProxiedPlayer) context.getSender());
         if(server == null) {
-            context.reply(new MessageResponse("You do not have a server running."));
+            context.reply(new SurvivalResponse("You do not have a server running."));
             return;
         }
-        context.reply(new MessageResponse("Deleting server..."));
+        context.reply(new SurvivalResponse("Deleting server..."));
         SurvivalHandler.INSTANCE.delete(server, true);
     }
 }

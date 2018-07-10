@@ -5,6 +5,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
 import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
+import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 import net.thenova.survival.proxy.survival.SurvivalServer;
 
@@ -39,12 +40,12 @@ public final class InfoCommand extends AbstractSubCommand {
     @Override
     public void onCommand(Context context) {
         if(!(context.getSender() instanceof ProxiedPlayer)) {
-            context.reply(new MessageResponse("Only players in-game can get info on servers."));
+            context.reply(new SurvivalResponse("Only players in-game can get info on servers."));
             return;
         }
         String identifier = ((ProxiedPlayer) context.getSender()).getServer().getInfo().getName();
         SurvivalServer server = SurvivalHandler.INSTANCE.getServer(identifier);
-        context.reply(new MessageResponse(server == null ?
+        context.reply(new SurvivalResponse(server == null ?
                 "You are not on a survival server." :
                 "The server " + ChatColor.WHITE + identifier + ChatColor.GRAY + " is owned by " + ChatColor.WHITE + server.getName() + ChatColor.GRAY + "."
         ));

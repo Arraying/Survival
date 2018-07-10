@@ -5,6 +5,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
 import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
+import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 
 /**
@@ -38,20 +39,20 @@ public final class JoinCommand extends AbstractSubCommand {
     @Override
     public void onCommand(Context context) {
         if(!(context.getSender() instanceof ProxiedPlayer)) {
-            context.reply(new MessageResponse("Only players in-game can join survival servers."));
+            context.reply(new SurvivalResponse("Only players in-game can join survival servers."));
             return;
         }
         if(context.getArgs().length == 0) {
-            context.reply(new MessageResponse("Please provide a player name."));
+            context.reply(new SurvivalResponse("Please provide a player name."));
             return;
         }
         String name = context.getArgs()[0];
         ServerInfo survivalServer = SurvivalHandler.INSTANCE.getServerForPlayerName(name);
         if(survivalServer == null) {
-            context.reply(new MessageResponse("That server does not exist."));
+            context.reply(new SurvivalResponse("That server does not exist."));
             return;
         }
-        context.reply(new MessageResponse("Connecting you to the server..."));
+        context.reply(new SurvivalResponse("Connecting you to the server..."));
         ((ProxiedPlayer) context.getSender()).connect(survivalServer);
     }
 

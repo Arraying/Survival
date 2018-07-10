@@ -8,6 +8,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.droplet.Droplet;
 import net.thenova.droplets.droplet.DropletCreationData;
 import net.thenova.droplets.droplet.DropletHandler;
+import net.thenova.survival.common.SurvivalConstants;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -155,7 +156,7 @@ public enum SurvivalHandler {
             droplet.delete();
             return;
         }
-        player.sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + "Your survival server is available, do " +
+        player.sendMessage(TextComponent.fromLegacyText(SurvivalConstants.PREFIX + "Your survival server is available, do " +
                 ChatColor.WHITE + "/survival join " + player.getName() + ChatColor.GRAY + "."));
         SurvivalServer server = new SurvivalServer(droplet.getIdentifier(), player.getUniqueId(), player.getName());
         servers.add(server);

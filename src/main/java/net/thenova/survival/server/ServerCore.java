@@ -30,7 +30,16 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public final class ServerCore extends Nexus {
 
+    private static ServerCore instance;
     private UUID owner;
+
+    /**
+     * Gets the instance.
+     * @return The instance.
+     */
+    public static ServerCore getInstance() {
+        return instance;
+    }
 
     /**
      * Configures Nexus.
@@ -38,16 +47,14 @@ public final class ServerCore extends Nexus {
      */
     @Override
     public void configure(NexusConfiguration config) {
-        NexusCommandLocalization localization = new NexusCommandLocalization(
+        instance = this;
+        config.setLocale(new NexusCommandLocalization(
                 SurvivalConstants.PREFIX,
                 ChatColor.GRAY + "You must be a player to execute this command.",
                 ChatColor.GRAY + "You must be the console to execute this command.",
                 ChatColor.GRAY + "You do not have permission for this command.",
-                ChatColor.GRAY+ "That sub-command does not exist.",
-                "",
-                ""
-        );
-        config.setLocale(localization);
+                ChatColor.GRAY+ "That sub-command does not exist."
+        ));
         config.getCommands().add(new MenuCommand());
         config.getCommands().add(new OpMeCommand());
         config.getListeners().add(new ServerEvents());

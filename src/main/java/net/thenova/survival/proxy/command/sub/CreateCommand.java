@@ -4,6 +4,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
 import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
+import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 
 /**
@@ -37,27 +38,27 @@ public final class CreateCommand extends AbstractSubCommand {
     @Override
     public void onCommand(Context context) {
         if(!(context.getSender() instanceof ProxiedPlayer)) {
-            context.reply(new MessageResponse("Only players in-game can create survival servers."));
+            context.reply(new SurvivalResponse("Only players in-game can create survival servers."));
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) context.getSender();
         if(!player.hasPermission("survival.create")) {
-            context.reply(new MessageResponse("You do not have permission to create a server."));
+            context.reply(new SurvivalResponse("You do not have permission to create a server."));
             return;
         }
         if(SurvivalHandler.INSTANCE.getServer(player) != null) {
-            context.reply(new MessageResponse("You cannot create another server."));
+            context.reply(new SurvivalResponse("You cannot create another server."));
             return;
         }
         if(!SurvivalHandler.INSTANCE.create(player)) {
-            context.reply(new MessageResponse("You are already creating a server."));
+            context.reply(new SurvivalResponse("You are already creating a server."));
             return;
         }
         if(SurvivalHandler.INSTANCE.getServerSize() > 10) {
-            context.reply(new MessageResponse("Too many survival servers online, space is limited, try again soon."));
+            context.reply(new SurvivalResponse("Too many survival servers online, space is limited, try again soon."));
             return;
         }
-        context.reply(new MessageResponse("Creating server... this may take some time."));
+        context.reply(new SurvivalResponse("Creating server... this may take some time."));
     }
 
 }
