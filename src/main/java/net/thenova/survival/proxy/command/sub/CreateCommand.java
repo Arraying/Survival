@@ -3,7 +3,7 @@ package net.thenova.survival.proxy.command.sub;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
-import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
+import net.thenova.survival.common.SurvivalConstants;
 import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 
@@ -42,10 +42,6 @@ public final class CreateCommand extends AbstractSubCommand {
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) context.getSender();
-        if(!player.hasPermission("survival.create")) {
-            context.reply(new SurvivalResponse("You do not have permission to create a server."));
-            return;
-        }
         if(SurvivalHandler.INSTANCE.getServer(player) != null) {
             context.reply(new SurvivalResponse("You cannot create another server."));
             return;
@@ -54,8 +50,8 @@ public final class CreateCommand extends AbstractSubCommand {
             context.reply(new SurvivalResponse("You are already creating a server."));
             return;
         }
-        if(SurvivalHandler.INSTANCE.getServerSize() > 10) {
-            context.reply(new SurvivalResponse("Too many survival servers online, space is limited, try again soon."));
+        if(SurvivalHandler.INSTANCE.getServerSize() >= SurvivalConstants.MAXIMUM) {
+            context.reply(new SurvivalResponse("Too many survival servers online, resources don't grown on trees. Try again soon, or join someone else's server."));
             return;
         }
         context.reply(new SurvivalResponse("Creating server... this may take some time."));

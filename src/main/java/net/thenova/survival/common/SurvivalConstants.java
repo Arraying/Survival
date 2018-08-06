@@ -29,4 +29,55 @@ public final class SurvivalConstants {
      */
     public static final String PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.WHITE + "Survival" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
 
+    /**
+     * The maximum survival servers.
+     */
+    public static final int MAXIMUM = 38;
+
+    /**
+     * The Supernova group ID.
+     */
+    public static final int SUPERNOVA = 206;
+
+    /**
+     * The meta directory name.
+     */
+    public static final String FILE_META = "Meta";
+
+    /**
+     * The Premium determination name.
+     */
+    public static final String FILE_PREMIUM = "premium";
+
+    /**
+     * The normal player cap.
+     */
+    public static final int PLAYERS_NORMAL = 5;
+
+    /**
+     * The premium player cap.
+     */
+    public static final int PLAYERS_PREMIUM = 15;
+
+    /**
+     * The normal RAM.
+     */
+    public static final int RAM_NORMAL = 512;
+
+    /**
+     * The premium RAM.
+     */
+    public static final int RAM_PREMIUM = 768;
+
+    /**
+     * The normal world radius.
+     */
+    public static final int WORLD_NORMAL = 20000;
+
+    /**
+     * The premium world radius.
+     */
+    public static final int WORLD_PREMIUM = 30000;
+
+
 }

@@ -10,6 +10,7 @@ import net.thenova.survival.server.command.commands.opme.OpMeCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -71,6 +72,14 @@ public final class ServerCore extends Nexus {
             Core.INSTANCE.getLogger().info("Using owner UUID " + uuidRaw + ".");
             owner = UUID.fromString(uuidRaw);
         }
+    }
+
+    /**
+     * Whether or not the survival server is premium.
+     * @return True if it is, false otherwise.
+     */
+    public boolean isPremium() {
+        return new File(new File(SurvivalConstants.FILE_META), SurvivalConstants.FILE_PREMIUM).exists();
     }
 
     /**

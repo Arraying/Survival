@@ -3,7 +3,6 @@ package net.thenova.survival.proxy.command.sub;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
-import net.thenova.droplets.proxy.command.internal.responses.MessageResponse;
 import net.thenova.survival.proxy.command.SurvivalResponse;
 import net.thenova.survival.proxy.survival.SurvivalHandler;
 import net.thenova.survival.proxy.survival.SurvivalServer;

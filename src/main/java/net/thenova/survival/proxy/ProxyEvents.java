@@ -6,12 +6,12 @@ import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ChatEvent;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.event.EventHandler;
+import net.thenova.droplets.Core;
 import net.thenova.droplets.droplet.Droplet;
 import net.thenova.droplets.droplet.DropletHandler;
 import net.thenova.droplets.proxy.event.DropletAvailableEvent;
@@ -22,6 +22,7 @@ import net.thenova.survival.proxy.survival.SurvivalServer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright 2018 Arraying
@@ -39,6 +40,8 @@ import java.util.UUID;
  * limitations under the License.
  */
 public final class ProxyEvents implements Listener {
+
+    private final List<Execution> tasks = new ArrayList<>();
 
     /**
      * When a player joins the network.
@@ -62,39 +65,36 @@ public final class ProxyEvents implements Listener {
      */
     @SuppressWarnings("unused")
     @EventHandler
-    public void onSwitch(ServerSwitchEvent event) {
+    public synchronized void onSwitch(ServerSwitchEvent event) {
         Droplet droplet = DropletHandler.INSTANCE.getDroplet(event.getPlayer().getServer().getInfo().getName());
-        if(droplet == null) {
-            return;
-        }
-        if(droplet.getTemplate().equals(SurvivalServer.TEMPLATE)) {
+        if(droplet != null
+                && droplet.getTemplate().equals(SurvivalServer.TEMPLATE)) {
             Title title = ProxyServer.getInstance().createTitle();
             title.title(TextComponent.fromLegacyText(ChatColor.WHITE + "" + ChatColor.BOLD + "Survival"));
             title.subTitle(TextComponent.fromLegacyText(ChatColor.GRAY + "A private vanilla experience."));
             title.send(event.getPlayer());
+            SurvivalServer survivalServer = SurvivalHandler.INSTANCE.getServer(droplet.getIdentifier());
+            tasks.stream()
+                    .filter(task -> task.uuid.equals(survivalServer.getUUID()))
+                    .findAny()
+                    .ifPresent(task -> {
+                        task.task.cancel();
+                        tasks.remove(task);
+                    });
         }
-    }
-
-
-    /**
-     * When a player leaves the network.
-     * Survival deletion is not optimal.
-     * @param event The event.
-     */
-    @SuppressWarnings("unused")
-    @EventHandler
-    public void onLeave(PlayerDisconnectEvent event) {
-        SurvivalHandler.INSTANCE.disconnect(event.getPlayer());
-        List<SurvivalServer> purging = new ArrayList<>();
         for(SurvivalServer server : SurvivalHandler.INSTANCE.all()) {
             ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getIdentifier());
             if(serverInfo == null
                     || serverInfo.getPlayers().isEmpty()) {
-                purging.add(server);
+                ScheduledTask scheduledTask = ProxyServer.getInstance().getScheduler().schedule(Core.INSTANCE.getProxyCore(), () -> {
+                    if(serverInfo != null
+                            && serverInfo.getPlayers().isEmpty()) {
+                        SurvivalHandler.INSTANCE.delete(server, true);
+                    }
+                }, 1, TimeUnit.MINUTES);
+                Execution execution = new Execution(server.getUUID(), scheduledTask);
+                tasks.add(execution);
             }
-        }
-        for(SurvivalServer purge : purging) {
-            SurvivalHandler.INSTANCE.delete(purge, true);
         }
     }
 
@@ -109,7 +109,11 @@ public final class ProxyEvents implements Listener {
         if(!droplet.getTemplate().equals(SurvivalServer.TEMPLATE)) {
             return;
         }
-        SurvivalHandler.INSTANCE.available(droplet);
+        if(event.isQuery()) {
+            droplet.delete();
+        } else {
+            SurvivalHandler.INSTANCE.available(droplet);
+        }
     }
 
     /**
@@ -132,6 +136,25 @@ public final class ProxyEvents implements Listener {
         SurvivalServer server = SurvivalHandler.INSTANCE.getServer(uuid);
         if(server != null) {
             SurvivalHandler.INSTANCE.delete(server, false);
+        }
+    }
+
+    /**
+     * An execution wrapper.
+     */
+    private static final class Execution {
+
+        private final UUID uuid;
+        private final ScheduledTask task;
+
+        /**
+         * Creates a new execution.
+         * @param uuid The UUID.
+         * @param task The underlying task.
+         */
+        private Execution(UUID uuid, ScheduledTask task) {
+            this.uuid = uuid;
+            this.task = task;
         }
     }
 

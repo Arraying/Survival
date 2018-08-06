@@ -1,6 +1,6 @@
 package net.thenova.survival.proxy.command.sub;
 
-import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.thenova.droplets.proxy.command.internal.AbstractSubCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
@@ -22,13 +22,13 @@ import net.thenova.survival.proxy.survival.SurvivalHandler;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class JoinCommand extends AbstractSubCommand {
+public final class RestartCommand extends AbstractSubCommand {
 
     /**
      * Creates the sub-command.
      */
-    public JoinCommand() {
-        super("join", "j", "send", "s");
+    public RestartCommand() {
+        super("restart", "r");
     }
 
     /**
@@ -38,17 +38,23 @@ public final class JoinCommand extends AbstractSubCommand {
     @Override
     public void onCommand(Context context) {
         if(!(context.getSender() instanceof ProxiedPlayer)) {
-            context.reply(new SurvivalResponse("Only players in-game can join survival servers."));
+            context.reply(new SurvivalResponse("Only players in-game can restart survival servers."));
             return;
         }
-        String name = context.getArgs().length == 0 ? context.getSender().getName() : context.getArgs()[0];
-        ServerInfo survivalServer = SurvivalHandler.INSTANCE.getServerForPlayerName(name);
-        if(survivalServer == null) {
-            context.reply(new SurvivalResponse("That server does not exist."));
+        if(SurvivalHandler.INSTANCE.getServer((ProxiedPlayer) context.getSender()) == null) {
+            context.reply(new SurvivalResponse("You don't have a server online to restart."));
             return;
         }
-        context.reply(new SurvivalResponse("Connecting you to the server..."));
-        ((ProxiedPlayer) context.getSender()).connect(survivalServer);
+        context.reply(new SurvivalResponse("Initiating restart (this will take a few seconds)..."));
+        new Thread(() -> {
+            ProxyServer.getInstance().getPluginManager().dispatchCommand(context.getSender(), "survival delete");
+            try {
+                Thread.sleep(3000);
+            } catch(InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            ProxyServer.getInstance().getPluginManager().dispatchCommand(context.getSender(), "survival create");
+        }).start();
     }
 
 }

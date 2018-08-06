@@ -30,9 +30,9 @@ public final class MenuOp extends GUISlot {
      * Creates the whitelist item.
      */
     public MenuOp() {
-        super(15,
+        super(12,
                 new ItemBuilder(Material.LAVA_BUCKET)
-                        .name(ChatColor.GOLD + "" + ChatColor.BOLD + "Operators")
+                        .name(ChatColor.YELLOW + "" + ChatColor.BOLD + "Operators")
                         .lore("Click to manage OPs.")
                         .build(),
                     new Click());

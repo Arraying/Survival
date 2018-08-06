@@ -28,7 +28,7 @@ public final class OpGUI extends BaseListGUI {
      */
     public OpGUI() {
         super(
-                ChatColor.GOLD + "" + ChatColor.BOLD + "Operators",
+                ChatColor.YELLOW + "" + ChatColor.BOLD + "Operators",
                 new ArrayList<>(),
                 new BaseListGUI.Action("OP the player.",
                         player -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "op " + player)),

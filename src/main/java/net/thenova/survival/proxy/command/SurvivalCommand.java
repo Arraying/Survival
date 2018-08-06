@@ -4,10 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.thenova.droplets.proxy.command.internal.AbstractCommand;
 import net.thenova.droplets.proxy.command.internal.Context;
 import net.thenova.droplets.proxy.command.internal.responses.ListedResponse;
-import net.thenova.survival.proxy.command.sub.CreateCommand;
-import net.thenova.survival.proxy.command.sub.DeleteCommand;
-import net.thenova.survival.proxy.command.sub.InfoCommand;
-import net.thenova.survival.proxy.command.sub.JoinCommand;
+import net.thenova.survival.proxy.command.sub.*;
 
 /**
  * Copyright 2018 Arraying
@@ -35,6 +32,7 @@ public final class SurvivalCommand extends AbstractCommand {
         subCommands.add(new InfoCommand());
         subCommands.add(new CreateCommand());
         subCommands.add(new DeleteCommand());
+        subCommands.add(new RestartCommand());
     }
 
     /**
@@ -44,10 +42,11 @@ public final class SurvivalCommand extends AbstractCommand {
     @Override
     public void onCommand(Context context) {
         context.reply(new ListedResponse(
-                ChatColor.WHITE + "/survival join <name> " + ChatColor.GRAY + "Joins a survival server.",
+                ChatColor.WHITE + "/survival join [name] " + ChatColor.GRAY + "Joins a survival server.",
                 ChatColor.WHITE + "/survival info " + ChatColor.GRAY + "Shows info for the server.",
                 ChatColor.WHITE + "/survival create " + ChatColor.GRAY + "Creates your survival server.",
-                ChatColor.WHITE + "/survival delete " + ChatColor.GRAY + "Deletes your survival server."
+                ChatColor.WHITE + "/survival delete " + ChatColor.GRAY + "Deletes your survival server.",
+                ChatColor.WHITE + "/survival restart " + ChatColor.GRAY + "Restarts your survival server."
         ));
     }
 

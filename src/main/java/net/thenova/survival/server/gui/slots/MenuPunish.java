@@ -30,7 +30,7 @@ public final class MenuPunish extends GUISlot {
      * Creates the punish item.
      */
     public MenuPunish() {
-        super(13,
+        super(11,
                 new ItemBuilder(Material.GOLD_SWORD)
                         .name(ChatColor.RED + "" + ChatColor.BOLD + "Punish")
                         .lore("Click to punish players.")

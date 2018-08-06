@@ -4,7 +4,7 @@ import de.arraying.nexus.gui.GUIManager;
 import de.arraying.nexus.gui.slot.GUIClick;
 import de.arraying.nexus.gui.slot.GUISlot;
 import de.arraying.nexus.item.ItemBuilder;
-import net.thenova.survival.server.gui.guis.WhitelistGUI;
+import net.thenova.survival.server.gui.guis.SettingsGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,17 +24,17 @@ import org.bukkit.entity.Player;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class MenuWhitelist extends GUISlot {
+public final class MenuSettings extends GUISlot {
 
     /**
-     * Creates the whitelist item.
+     * Creates the settings item.
      */
-    public MenuWhitelist() {
-        super(10,
-                new ItemBuilder(Material.PAPER)
-                    .name(ChatColor.WHITE + "" + ChatColor.BOLD + "Whitelist")
-                    .lore("Click to manage the whitelist.")
-                    .build(),
+    public MenuSettings() {
+        super(13,
+                new ItemBuilder(Material.REDSTONE_COMPARATOR)
+                    .name(ChatColor.AQUA + "" + ChatColor.BOLD + "Settings")
+                    .lore("Click to change the settings.")
+                .build(),
                 new Click(),
                 new Click());
     }
@@ -50,7 +50,7 @@ public final class MenuWhitelist extends GUISlot {
          */
         @Override
         public void onClick(Player player) {
-            GUIManager.INSTANCE.openGUI(player, new WhitelistGUI());
+            GUIManager.INSTANCE.openGUI(player, new SettingsGUI());
         }
 
     }

@@ -3,11 +3,8 @@ package net.thenova.survival.proxy;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.thenova.droplets.droplet.Droplet;
 import net.thenova.droplets.droplet.DropletHandler;
-import net.thenova.survival.common.SurvivalConstants;
 import net.thenova.survival.proxy.command.SurvivalCommand;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import net.thenova.survival.proxy.survival.SurvivalServer;
 
 /**
  * Copyright 2018 Arraying
@@ -32,13 +29,10 @@ public final class ProxyCore extends Plugin {
      */
     @Override
     public void onEnable() {
-        List<Droplet> toPurge = DropletHandler.INSTANCE.getAll()
+        DropletHandler.INSTANCE.getAll()
                 .stream()
-                .filter(droplet -> droplet.getTemplate().equals(SurvivalConstants.UUID))
-                .collect(Collectors.toList());
-        for(Droplet droplet : toPurge) {
-            droplet.delete();
-        }
+                .filter(droplet -> droplet.getTemplate().equals(SurvivalServer.TEMPLATE))
+                .forEach(Droplet::delete); //todo make this work!
         getProxy().getPluginManager().registerListener(this, new ProxyEvents());
         getProxy().getPluginManager().registerCommand(this, new SurvivalCommand());
     }

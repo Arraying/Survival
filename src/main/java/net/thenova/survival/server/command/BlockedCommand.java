@@ -28,8 +28,7 @@ public final class BlockedCommand {
         commands.add(new BlockedCommand("stop", new String[]{"minecraft:stop", "bukkit:stop"},
                 ChatColor.GRAY + "Please use " + ChatColor.WHITE + "/survival delete" + ChatColor.GRAY + " instead."));
         commands.add(new BlockedCommand("restart", new String[]{"minecraft:restart", "bukkit:restart"},
-                ChatColor.GRAY + "Please use " + ChatColor.WHITE + "/survival delete" + ChatColor.GRAY +
-                        " and " + ChatColor.WHITE + "/survival create" + ChatColor.GRAY + " instead."));
+                ChatColor.GRAY + "Please use " + ChatColor.WHITE + "/survival restart" + ChatColor.GRAY + " instead."));
         commands.add(new BlockedCommand("reload", new String[]{"reload", "minecraft:reload", "bukkit:reload"}, null));
     }
 

@@ -1,12 +1,7 @@
 package net.thenova.survival.server.gui.guis;
 
 import de.arraying.nexus.gui.GUI;
-import de.arraying.nexus.util.UGUI;
-import net.thenova.survival.server.gui.slots.*;
 import org.bukkit.ChatColor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Copyright 2018 Arraying
@@ -23,13 +18,13 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class MenuGUI extends GUI {
+public final class SettingsGUI extends GUI {
 
     /**
-     * Creates the menu GUI.
+     * Creates the settings GUI.
      */
-    public MenuGUI() {
-        super(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Survival Menu", 27);
+    public SettingsGUI() {
+        super(ChatColor.AQUA + "" + ChatColor.BOLD + "Settings", 27);
     }
 
     /**
@@ -37,15 +32,7 @@ public final class MenuGUI extends GUI {
      */
     @Override
     public void populate() {
-        List<Integer> paneSlots = new ArrayList<>(UGUI.INSTANCE.border(27));
-        for(int paneSlot : paneSlots) {
-            registerSlot(new MenuPane(paneSlot));
-        }
-        registerSlot(new MenuWhitelist());
-        registerSlot(new MenuPunish());
-        registerSlot(new MenuOp());
-        registerSlot(new MenuSettings());
-        registerSlot(new MenuPremium());
+
     }
 
 }
