@@ -79,7 +79,7 @@ public final class MenuPremium extends GUISlot {
         return ChatColor.GOLD + title + ": " + ChatColor.GRAY + normal + ChatColor.DARK_GRAY + "/" + ChatColor.YELLOW + premium;
     }
 
-    public static final class Click implements GUIClick {
+    private static final class Click implements GUIClick {
 
         /**
          * When the slot is clicked.

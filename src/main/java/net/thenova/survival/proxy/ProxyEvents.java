@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
@@ -39,6 +40,7 @@ import java.util.concurrent.TimeUnit;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@SuppressWarnings("WeakerAccess")
 public final class ProxyEvents implements Listener {
 
     private final List<Execution> tasks = new ArrayList<>();
@@ -56,6 +58,20 @@ public final class ProxyEvents implements Listener {
                 && server.getUUID().equals(player.getUniqueId())
                 && !server.getName().equals(player.getName())) {
             server.setName(player.getName());
+        }
+    }
+
+    /**
+     * When a member disconnects from the server.
+     * @param event The event.
+     */
+    @SuppressWarnings("unused")
+    @EventHandler
+    public synchronized void onDisconnect(ServerDisconnectEvent event) {
+        Droplet droplet = DropletHandler.INSTANCE.getDroplet(event.getTarget().getName());
+        if(droplet != null
+                && droplet.getTemplate().equals(SurvivalServer.TEMPLATE)) {
+            clean();
         }
     }
 
@@ -82,20 +98,6 @@ public final class ProxyEvents implements Listener {
                         tasks.remove(task);
                     });
         }
-        for(SurvivalServer server : SurvivalHandler.INSTANCE.all()) {
-            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getIdentifier());
-            if(serverInfo == null
-                    || serverInfo.getPlayers().isEmpty()) {
-                ScheduledTask scheduledTask = ProxyServer.getInstance().getScheduler().schedule(Core.INSTANCE.getProxyCore(), () -> {
-                    if(serverInfo != null
-                            && serverInfo.getPlayers().isEmpty()) {
-                        SurvivalHandler.INSTANCE.delete(server, true);
-                    }
-                }, 1, TimeUnit.MINUTES);
-                Execution execution = new Execution(server.getUUID(), scheduledTask);
-                tasks.add(execution);
-            }
-        }
     }
 
     /**
@@ -109,11 +111,7 @@ public final class ProxyEvents implements Listener {
         if(!droplet.getTemplate().equals(SurvivalServer.TEMPLATE)) {
             return;
         }
-        if(event.isQuery()) {
-            droplet.delete();
-        } else {
-            SurvivalHandler.INSTANCE.available(droplet);
-        }
+        SurvivalHandler.INSTANCE.available(droplet);
     }
 
     /**
@@ -136,6 +134,36 @@ public final class ProxyEvents implements Listener {
         SurvivalServer server = SurvivalHandler.INSTANCE.getServer(uuid);
         if(server != null) {
             SurvivalHandler.INSTANCE.delete(server, false);
+        }
+    }
+
+    /**
+     * Cleans up unused droplets.
+     */
+    private void clean() {
+        for(SurvivalServer server : SurvivalHandler.INSTANCE.all()) {
+            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getIdentifier());
+            if(serverInfo == null) {
+                SurvivalHandler.INSTANCE.delete(server, true);
+                return;
+            }
+            if(serverInfo.getPlayers().isEmpty()) {
+                System.out.println("cleaning " + server.getIdentifier());
+                ScheduledTask scheduledTask = ProxyServer.getInstance().getScheduler().schedule(Core.INSTANCE.getProxyCore(), () -> {
+                    System.out.println("righty it's time");
+                    SurvivalHandler.INSTANCE.all().stream()
+                            .filter(it ->
+                                    it.getUUID().equals(server.getUUID())
+                                    && it.getIdentifier().equals(serverInfo.getName())
+                                    && (ProxyServer.getInstance().getServerInfo(it.getIdentifier()) == null
+                                    || ProxyServer.getInstance().getServerInfo(it.getIdentifier()).getPlayers().isEmpty())
+                            )
+                            .findAny()
+                            .ifPresent(it -> SurvivalHandler.INSTANCE.delete(it, true));
+                }, 1, TimeUnit.MINUTES);
+                Execution execution = new Execution(server.getUUID(), scheduledTask);
+                tasks.add(execution);
+            }
         }
     }
 

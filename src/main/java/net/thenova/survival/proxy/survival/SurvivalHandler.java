@@ -137,14 +137,6 @@ public enum SurvivalHandler {
     }
 
     /**
-     * Removes a player from the creation.
-     * @param player The player.
-     */
-    public synchronized void disconnect(ProxiedPlayer player) {
-        creation.remove(player);
-    }
-
-    /**
      * When a droplet is available.
      * @param droplet The droplet.
      */

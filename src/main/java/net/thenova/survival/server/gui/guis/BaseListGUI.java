@@ -103,7 +103,7 @@ abstract class BaseListGUI extends PaginatedGUI {
     /**
      * A click action.
      */
-    public static final class ClickAction implements GUIClick {
+    private static final class ClickAction implements GUIClick {
 
         private final Action action;
         private final String name;
@@ -133,7 +133,7 @@ abstract class BaseListGUI extends PaginatedGUI {
     /**
      * The sorting algorithm.
      */
-    public static final class Sorter implements SortingAlgorithm {
+    private static final class Sorter implements SortingAlgorithm {
 
         private final List<Integer> slots = new ArrayList<>();
 

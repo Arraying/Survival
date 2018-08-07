@@ -42,7 +42,7 @@ public final class MenuSettings extends GUISlot {
     /**
      * The click implementation.
      */
-    public static final class Click implements GUIClick {
+    private static final class Click implements GUIClick {
 
         /**
          * When a player clicks the item.

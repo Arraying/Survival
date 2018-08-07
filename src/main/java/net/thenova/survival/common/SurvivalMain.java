@@ -15,7 +15,7 @@ package net.thenova.survival.common;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class SurvivalMain {
+final class SurvivalMain {
 
     /**
      * When something goes badly wrong.

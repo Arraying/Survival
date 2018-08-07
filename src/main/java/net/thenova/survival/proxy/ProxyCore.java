@@ -1,7 +1,6 @@
 package net.thenova.survival.proxy;
 
 import net.md_5.bungee.api.plugin.Plugin;
-import net.thenova.droplets.droplet.Droplet;
 import net.thenova.droplets.droplet.DropletHandler;
 import net.thenova.survival.proxy.command.SurvivalCommand;
 import net.thenova.survival.proxy.survival.SurvivalServer;
@@ -29,10 +28,8 @@ public final class ProxyCore extends Plugin {
      */
     @Override
     public void onEnable() {
-        DropletHandler.INSTANCE.getAll()
-                .stream()
-                .filter(droplet -> droplet.getTemplate().equals(SurvivalServer.TEMPLATE))
-                .forEach(Droplet::delete); //todo make this work!
+        DropletHandler.INSTANCE
+                .dispose(droplet -> droplet.getTemplate().equals(SurvivalServer.TEMPLATE));
         getProxy().getPluginManager().registerListener(this, new ProxyEvents());
         getProxy().getPluginManager().registerCommand(this, new SurvivalCommand());
     }
