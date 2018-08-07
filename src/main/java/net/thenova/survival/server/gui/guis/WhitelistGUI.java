@@ -37,6 +37,15 @@ public final class WhitelistGUI extends BaseListGUI {
                         .build(),
                 player -> whitelist(true, player)
         ));
+        staticSlots.add(new GUISlot(22,
+                new ItemBuilder(Material.PAPER)
+                        .name(ChatColor.WHITE + "" + ChatColor.BOLD + "All Commands")
+                        .lore("/whitelist on",
+                                "/whitelist off",
+                                "/whitelist add <player>",
+                                "/whitelist remove <player>")
+                        .build()
+        ));
         staticSlots.add(new GUISlot(23,
                 new ItemBuilder(Material.REDSTONE_BLOCK)
                         .name(ChatColor.RED + "" + ChatColor.BOLD + "Off")

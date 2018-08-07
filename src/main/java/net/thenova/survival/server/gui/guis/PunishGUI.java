@@ -1,10 +1,14 @@
 package net.thenova.survival.server.gui.guis;
 
+import de.arraying.nexus.gui.slot.GUISlot;
+import de.arraying.nexus.item.ItemBuilder;
 import net.thenova.survival.server.command.commands.menu.MenuCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright 2018 Arraying
@@ -29,7 +33,7 @@ public final class PunishGUI extends BaseListGUI {
     public PunishGUI() {
         super(
                 ChatColor.RED + "" + ChatColor.BOLD + "Punish",
-                new ArrayList<>(),
+                getStatic(),
                 new Action("kick the player.",
                         player -> {
                             if(MenuCommand.Util.allowAction(player)) {
@@ -44,4 +48,23 @@ public final class PunishGUI extends BaseListGUI {
                         })
         );
     }
+
+    /**
+     * Gets all static slots.
+     * @return A list of slots.
+     */
+    private static List<GUISlot> getStatic() {
+        List<GUISlot> slots = new ArrayList<>();
+        slots.add(new GUISlot(22,
+                new ItemBuilder(Material.PAPER)
+                        .name(ChatColor.RED + "" + ChatColor.BOLD + "All Commands")
+                        .lore("/kick <player> <reason>",
+                                "/pardon <player>",
+                                "/ban-ip <ip> <reason>",
+                                "/pardon-ip <ip>")
+                        .build()
+        ));
+        return slots;
+    }
+
 }

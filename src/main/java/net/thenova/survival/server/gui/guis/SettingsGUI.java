@@ -1,7 +1,11 @@
 package net.thenova.survival.server.gui.guis;
 
 import de.arraying.nexus.gui.GUI;
+import de.arraying.nexus.util.UGUI;
+import net.thenova.survival.server.gui.slots.MenuPane;
+import net.thenova.survival.server.gui.slots.SettingsSetting;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 /**
  * Copyright 2018 Arraying
@@ -21,6 +25,13 @@ import org.bukkit.ChatColor;
 public final class SettingsGUI extends GUI {
 
     /**
+     * The slot number.
+     */
+    private static final int[] SLOTS = new int[] {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 18, 19, 20, 21, 22, 23, 24, 25, 26
+    };
+
+    /**
      * Creates the settings GUI.
      */
     public SettingsGUI() {
@@ -32,7 +43,90 @@ public final class SettingsGUI extends GUI {
      */
     @Override
     public void populate() {
-
+        for(int slot : SLOTS) {
+            registerSlot(new MenuPane(slot));
+        }
+        registerSlot(new SettingsSetting(
+                9,
+                Material.BEACON,
+                "Spawn Protection",
+                "spawn-protection",
+                0,
+                64,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                10,
+                Material.FEATHER,
+                "Gamemode",
+                "gamemode",
+                0,
+                1,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                11,
+                Material.ROTTEN_FLESH,
+                "Spawn Monsters",
+                "spawn-monsters",
+                true,
+                false,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                12,
+                Material.COOKED_CHICKEN,
+                "Spawn Animals",
+                "spawn-animals",
+                true,
+                false,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                13,
+                Material.DIAMOND_SWORD,
+                "Enable PvP",
+                "pvp",
+                true,
+                false,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                14,
+                Material.PAPER,
+                "Max Players",
+                "max-players",
+                5,
+                15,
+                true
+        ));
+        registerSlot(new SettingsSetting(
+                15,
+                Material.GRASS,
+                "World Radius",
+                "max-world-size",
+                10000,
+                15000,
+                true
+        ));
+        registerSlot(new SettingsSetting(
+                16,
+                Material.EMERALD,
+                "Spawn NPCs",
+                "spawn-npcs",
+                true,
+                false,
+                false
+        ));
+        registerSlot(new SettingsSetting(
+                17,
+                Material.MOB_SPAWNER,
+                "Generate Structures",
+                "generate-structures",
+                true,
+                false,
+                false
+        ));
     }
 
 }

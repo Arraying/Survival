@@ -50,6 +50,11 @@ public final class SurvivalConstants {
     public static final String FILE_PREMIUM = "premium";
 
     /**
+     * The name for the properties file.
+     */
+    public static final String FILE_PROPS = "props.json";
+
+    /**
      * The normal player cap.
      */
     public static final int PLAYERS_NORMAL = 5;

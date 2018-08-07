@@ -54,7 +54,7 @@ public final class CreateCommand extends AbstractSubCommand {
             context.reply(new SurvivalResponse("Too many survival servers online, resources don't grown on trees. Try again soon, or join someone else's server."));
             return;
         }
-        context.reply(new SurvivalResponse("Creating server... this may take some time."));
+        context.reply(new SurvivalResponse("Creating server..."));
     }
 
 }

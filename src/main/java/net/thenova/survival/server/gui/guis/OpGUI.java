@@ -1,10 +1,14 @@
 package net.thenova.survival.server.gui.guis;
 
+import de.arraying.nexus.gui.slot.GUISlot;
+import de.arraying.nexus.item.ItemBuilder;
 import net.thenova.survival.server.command.commands.menu.MenuCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright 2018 Arraying
@@ -29,7 +33,7 @@ public final class OpGUI extends BaseListGUI {
     public OpGUI() {
         super(
                 ChatColor.YELLOW + "" + ChatColor.BOLD + "Operators",
-                new ArrayList<>(),
+                getStatic(),
                 new BaseListGUI.Action("OP the player.",
                         player -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "op " + player)),
                 new BaseListGUI.Action("de-OP the player.",
@@ -39,6 +43,22 @@ public final class OpGUI extends BaseListGUI {
                             }
                         })
         );
+    }
+
+    /**
+     * Gets all static slots.
+     * @return A list of slots.
+     */
+    private static List<GUISlot> getStatic() {
+        List<GUISlot> slots = new ArrayList<>();
+        slots.add(new GUISlot(22,
+                new ItemBuilder(Material.PAPER)
+                        .name(ChatColor.YELLOW + "" + ChatColor.BOLD + "All Commands")
+                        .lore("/op <player>",
+                                "/deop <player>")
+                        .build()
+        ));
+        return slots;
     }
 
 }

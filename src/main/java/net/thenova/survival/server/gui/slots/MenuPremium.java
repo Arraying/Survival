@@ -87,6 +87,7 @@ public final class MenuPremium extends GUISlot {
          */
         @Override
         public void onClick(Player player) {
+            player.closeInventory();
             if(ServerCore.getInstance().isPremium()) {
                 player.sendMessage(PREFIX + "You are already Premium, you cannot upgrade again.");
                 return;
@@ -102,7 +103,6 @@ public final class MenuPremium extends GUISlot {
             } catch(IOException exception) {
                 error(player, exception);
             }
-            player.closeInventory();
         }
 
         /**
