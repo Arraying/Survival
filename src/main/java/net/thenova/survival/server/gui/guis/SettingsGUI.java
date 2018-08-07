@@ -1,7 +1,6 @@
 package net.thenova.survival.server.gui.guis;
 
 import de.arraying.nexus.gui.GUI;
-import de.arraying.nexus.util.UGUI;
 import net.thenova.survival.server.gui.slots.MenuPane;
 import net.thenova.survival.server.gui.slots.SettingsSetting;
 import org.bukkit.ChatColor;
