@@ -58,18 +58,14 @@ public enum SurvivalRank {
      */
     public static SurvivalRank forPlayer(Player player) {
         ServerCore core = ServerCore.getInstance();
-        SurvivalRank rank;
-        if(player.isOp()) {
-            if(core.getOwner() != null
-                    && core.getOwner().equals(player.getUniqueId())) {
-                rank = SurvivalRank.HOST;
-            } else {
-                rank = SurvivalRank.CO_HOST;
-            }
+        if(core.getOwner() != null
+                && core.getOwner().equals(player.getUniqueId())) {
+            return HOST;
+        } else if(player.isOp()) {
+            return CO_HOST;
         } else {
-            rank = SurvivalRank.PLAYER;
+            return PLAYER;
         }
-        return rank;
     }
 
     /**
