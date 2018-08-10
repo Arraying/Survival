@@ -23,11 +23,22 @@ import net.thenova.survival.proxy.survival.SurvivalServer;
 @SuppressWarnings("unused")
 public final class ProxyCore extends Plugin {
 
+    private static ProxyCore instance;
+
+    /**
+     * Gets the instance.
+     * @return The instance.
+     */
+    public static ProxyCore getInstance() {
+        return instance;
+    }
+
     /**
      * When the plugin is enabled.
      */
     @Override
     public void onEnable() {
+        instance = this;
         DropletHandler.INSTANCE
                 .dispose(droplet -> droplet.getTemplate().equals(SurvivalServer.TEMPLATE));
         getProxy().getPluginManager().registerListener(this, new ProxyEvents());

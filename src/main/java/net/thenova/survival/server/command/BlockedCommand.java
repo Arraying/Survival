@@ -20,6 +20,7 @@ import java.util.Set;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@SuppressWarnings("SpellCheckingInspection")
 public final class BlockedCommand {
 
     private static final Set<BlockedCommand> commands = new HashSet<>();

@@ -148,19 +148,17 @@ public final class ProxyEvents implements Listener {
                 return;
             }
             if(serverInfo.getPlayers().isEmpty()) {
-                System.out.println("cleaning " + server.getIdentifier());
-                ScheduledTask scheduledTask = ProxyServer.getInstance().getScheduler().schedule(Core.INSTANCE.getProxyCore(), () -> {
-                    System.out.println("righty it's time");
-                    SurvivalHandler.INSTANCE.all().stream()
-                            .filter(it ->
-                                    it.getUUID().equals(server.getUUID())
-                                    && it.getIdentifier().equals(serverInfo.getName())
-                                    && (ProxyServer.getInstance().getServerInfo(it.getIdentifier()) == null
-                                    || ProxyServer.getInstance().getServerInfo(it.getIdentifier()).getPlayers().isEmpty())
-                            )
-                            .findAny()
-                            .ifPresent(it -> SurvivalHandler.INSTANCE.delete(it, true));
-                }, 1, TimeUnit.MINUTES);
+                ProxyCore.getInstance().getLogger().info("Server " + serverInfo.getName() + " is empty, deleting in 1 minute.");
+                ScheduledTask scheduledTask = ProxyServer.getInstance().getScheduler().schedule(Core.INSTANCE.getProxyCore(), () ->
+                        SurvivalHandler.INSTANCE.all().stream()
+                        .filter(it ->
+                                it.getUUID().equals(server.getUUID())
+                                && it.getIdentifier().equals(serverInfo.getName())
+                                && (ProxyServer.getInstance().getServerInfo(it.getIdentifier()) == null
+                                || ProxyServer.getInstance().getServerInfo(it.getIdentifier()).getPlayers().isEmpty())
+                        )
+                        .findAny()
+                        .ifPresent(it -> SurvivalHandler.INSTANCE.delete(it, true)), 1, TimeUnit.MINUTES);
                 Execution execution = new Execution(server.getUUID(), scheduledTask);
                 tasks.add(execution);
             }

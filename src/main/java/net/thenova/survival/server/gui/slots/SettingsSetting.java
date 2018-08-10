@@ -29,7 +29,7 @@ import java.nio.file.Files;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class SettingsSetting extends GUISlot {
+public final class SettingsSetting extends GUISlot {
 
     /**
      * Creates a new setting.
@@ -90,7 +90,7 @@ public class SettingsSetting extends GUISlot {
             }
             update();
             player.closeInventory();
-            player.sendMessage(SurvivalConstants.PREFIX + "The setting has been updated. They will become effective at the next restart." +
+            player.sendMessage(SurvivalConstants.PREFIX + "The setting has been updated. They will become effective at the next restart. " +
                     "This can be done using " + ChatColor.WHITE + "/survival restart" + ChatColor.GRAY + ".");
         }
 

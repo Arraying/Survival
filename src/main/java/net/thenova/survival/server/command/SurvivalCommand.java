@@ -30,6 +30,7 @@ public abstract class SurvivalCommand extends NexusCommand {
      * @param rank The rank required.
      * @param aliases The aliases.
      */
+    @SuppressWarnings("SameParameterValue")
     protected SurvivalCommand(String name, SurvivalRank rank, String... aliases) {
         super(name, "", Target.PLAYER, aliases);
         this.rank = rank;
