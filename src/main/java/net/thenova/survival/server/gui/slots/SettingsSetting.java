@@ -90,7 +90,7 @@ public final class SettingsSetting extends GUISlot {
             }
             update();
             player.closeInventory();
-            player.sendMessage(SurvivalConstants.PREFIX + "The setting has been updated. They will become effective at the next restart. " +
+            player.sendMessage(SurvivalConstants.PREFIX + "The setting has been updated. It will become effective at the next restart." +
                     "This can be done using " + ChatColor.WHITE + "/survival restart" + ChatColor.GRAY + ".");
         }
 

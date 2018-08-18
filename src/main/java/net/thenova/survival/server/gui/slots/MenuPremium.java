@@ -36,7 +36,7 @@ public final class MenuPremium extends GUISlot {
      * Creates the premium item.
      */
     public MenuPremium() {
-        super(15,
+        super(16,
                 new ItemBuilder(Material.GOLD_BLOCK)
                     .name(ChatColor.GOLD + "" + ChatColor.BOLD + "Go Premium")
                     .lore(getLore())

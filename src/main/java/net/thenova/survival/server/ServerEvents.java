@@ -3,11 +3,10 @@ package net.thenova.survival.server;
 import net.thenova.survival.server.command.BlockedCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.BlockCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerCommandEvent;
 
 import java.util.Arrays;
@@ -32,6 +31,19 @@ import java.util.UUID;
 public final class ServerEvents implements Listener {
 
     private final ServerCore core;
+
+    /**
+     * When a player joins the server.
+     * @param event The event.
+     */
+    @SuppressWarnings("unused")
+    @EventHandler
+    public void onLogin(PlayerLoginEvent event) {
+        Player player = event.getPlayer();
+        if(player.getUniqueId().equals(ServerCore.getInstance().getOwner())) {
+            event.allow();
+        }
+    }
 
     /**
      * Sets the core.

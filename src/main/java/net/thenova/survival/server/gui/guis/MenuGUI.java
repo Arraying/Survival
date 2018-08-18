@@ -41,10 +41,12 @@ public final class MenuGUI extends GUI {
         for(int paneSlot : paneSlots) {
             registerSlot(new MenuPane(paneSlot));
         }
+        registerSlot(new MenuPane(15));
         registerSlot(new MenuWhitelist());
         registerSlot(new MenuPunish());
         registerSlot(new MenuOp());
         registerSlot(new MenuSettings());
+        registerSlot(new MenuPlugins());
         registerSlot(new MenuPremium());
     }
 

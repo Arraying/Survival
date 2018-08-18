@@ -1,5 +1,6 @@
 package net.thenova.survival.server;
 
+import de.arraying.kotys.JSONArray;
 import de.arraying.nexus.Nexus;
 import de.arraying.nexus.NexusConfiguration;
 import de.arraying.nexus.command.NexusCommandLocalization;
@@ -7,10 +8,13 @@ import net.thenova.droplets.Core;
 import net.thenova.survival.common.SurvivalConstants;
 import net.thenova.survival.server.command.commands.menu.MenuCommand;
 import net.thenova.survival.server.command.commands.opme.OpMeCommand;
+import net.thenova.survival.server.entity.InstallablePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,6 +37,7 @@ public final class ServerCore extends Nexus {
 
     private static ServerCore instance;
     private UUID owner;
+    private List<InstallablePlugin> installablePlugins;
 
     /**
      * Gets the instance.
@@ -72,6 +77,24 @@ public final class ServerCore extends Nexus {
             Core.INSTANCE.getLogger().info("Using owner UUID " + uuidRaw + ".");
             owner = UUID.fromString(uuidRaw);
         }
+        installablePlugins = new ArrayList<>();
+        JSONArray plugins = Core.INSTANCE.getConfiguration().getJSON().array("plugins");
+        if(plugins != null) {
+            try {
+                InstallablePlugin[] installablePluginArray = plugins.marshal(InstallablePlugin.class);
+                for(InstallablePlugin plugin : installablePluginArray) {
+                    if(plugin.isValid()) {
+                        installablePlugins.add(plugin);
+                    } else {
+                        getLogger().warning("Invalid plugin " + plugin + ".");
+                    }
+                }
+            } catch(IllegalArgumentException | IllegalStateException exception) {
+                exception.printStackTrace();
+            }
+        } else {
+            getLogger().severe("Plugins array nonexistant.");
+        }
     }
 
     /**
@@ -80,6 +103,14 @@ public final class ServerCore extends Nexus {
      */
     public boolean isPremium() {
         return new File(new File(SurvivalConstants.FILE_META), SurvivalConstants.FILE_PREMIUM).exists();
+    }
+
+    /**
+     * Gets all installable plugins.
+     * @return A list of plugins.
+     */
+    public List<InstallablePlugin> getInstallablePlugins() {
+        return installablePlugins;
     }
 
     /**
